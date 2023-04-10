@@ -44,43 +44,46 @@ namespace Client.ClientBase.Utils
             return Point.Empty;
         }
 
-        public static Point[] FindPixels(Rectangle rect, Color Pixel_Color, int Shade_Variation)
+        public static Point[] FindPixels(Rectangle rect, Color pixelColor, int shadeVariation)
         {
-            System.Collections.ArrayList points = new();
-            Bitmap RegionIn_Bitmap = new(rect.Width, rect.Height, PixelFormat.Format24bppRgb);
+            List<Point> points = new();
 
-            using (Graphics graphics = Graphics.FromImage(RegionIn_Bitmap))
+            using (Bitmap regionInBitmap = new(rect.Width, rect.Height, PixelFormat.Format24bppRgb))
             {
-                graphics.CopyFromScreen(rect.X, rect.Y, 0, 0, rect.Size, CopyPixelOperation.SourceCopy);
-            }
-
-            BitmapData RegionIn_BitmapData = RegionIn_Bitmap.LockBits(new Rectangle(0, 0, RegionIn_Bitmap.Width, RegionIn_Bitmap.Height), ImageLockMode.ReadWrite, PixelFormat.Format24bppRgb);
-            int[] Formatted_Color = new int[3] { Pixel_Color.B, Pixel_Color.G, Pixel_Color.R };
-
-            IntPtr Scan0 = RegionIn_BitmapData.Scan0;
-            int stride = RegionIn_BitmapData.Stride;
-
-            for (int y = 0; y < RegionIn_BitmapData.Height; y++)
-            {
-                for (int x = 0; x < RegionIn_BitmapData.Width; x++)
+                using (Graphics graphics = Graphics.FromImage(regionInBitmap))
                 {
-                    int offset = (y * stride) + (x * 3);
-                    byte blue = Marshal.ReadByte(Scan0, offset);
-                    byte green = Marshal.ReadByte(Scan0, offset + 1);
-                    byte red = Marshal.ReadByte(Scan0, offset + 2);
+                    graphics.CopyFromScreen(rect.X, rect.Y, 0, 0, rect.Size, CopyPixelOperation.SourceCopy);
+                }
 
-                    if (blue >= (Formatted_Color[0] - Shade_Variation) && blue <= (Formatted_Color[0] + Shade_Variation) &&
-                        green >= (Formatted_Color[1] - Shade_Variation) && green <= (Formatted_Color[1] + Shade_Variation) &&
-                        red >= (Formatted_Color[2] - Shade_Variation) && red <= (Formatted_Color[2] + Shade_Variation))
+                BitmapData bitmapData = regionInBitmap.LockBits(new Rectangle(0, 0, regionInBitmap.Width, regionInBitmap.Height), ImageLockMode.ReadWrite, PixelFormat.Format24bppRgb);
+
+                int[] formattedColor = new int[] { pixelColor.B, pixelColor.G, pixelColor.R };
+                IntPtr scan0 = bitmapData.Scan0;
+                int stride = bitmapData.Stride;
+
+                for (int y = 0; y < bitmapData.Height; y++)
+                {
+                    for (int x = 0; x < bitmapData.Width; x++)
                     {
-                        points.Add(new Point(rect.X + x, rect.Y + y - 8));
+                        int offset = (y * stride) + (x * 3);
+                        byte blue = Marshal.ReadByte(scan0, offset);
+                        byte green = Marshal.ReadByte(scan0, offset + 1);
+                        byte red = Marshal.ReadByte(scan0, offset + 2);
+
+                        if (blue >= (formattedColor[0] - shadeVariation) && blue <= (formattedColor[0] + shadeVariation) &&
+                            green >= (formattedColor[1] - shadeVariation) && green <= (formattedColor[1] + shadeVariation) &&
+                            red >= (formattedColor[2] - shadeVariation) && red <= (formattedColor[2] + shadeVariation))
+                        {
+                            Point point = new(rect.X + x, rect.Y + y - 8);
+                            points.Add(point);
+                        }
                     }
                 }
+
+                regionInBitmap.UnlockBits(bitmapData);
             }
 
-            RegionIn_Bitmap.UnlockBits(RegionIn_BitmapData);
-
-            return (Point[])points.ToArray(typeof(Point));
+            return points.ToArray();
         }
     }
 }

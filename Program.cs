@@ -17,12 +17,18 @@ namespace Client
         public static Overlay form = new();
         private static readonly System.Windows.Forms.Timer redrawTimer = new();
         private static readonly ManualResetEvent mainThreadEvent = new(false);
-        public static readonly string fontPath = "C:/Users/Eigenaar/3D Objects/github/New folder/ClientBase/Fonts/Types";
+        public static readonly string fontPath = "YOUR FOLDER PATH HERE";
         public static readonly string client_name = "Rice";
 
 
         static void Main(string[] args)
         {
+            if (fontPath == "YOUR FOLDER PATH HERE")
+            {
+                Console.WriteLine("Please set the folder path in Program.cs");
+                return;
+            }
+
             Console.WriteLine("Starting " + client_name + " Client");
             Console.WriteLine("I like " + client_name);
 
