@@ -9,7 +9,7 @@ Unfortunately, development of this cheat has been discontinued due to performanc
 
 Thank you for checking out this repository!
 
-CURRENT KEYBINDS:
-ArrayList: INSERT
-AimAssist: K
-Aura: L
+## Current Keybinds:
+1. ArrayList: INSERT
+2. AimAssist: K
+3. Aura: L
