@@ -3,12 +3,13 @@ using Client.ClientBase.UI.Overlay;
 using Client.ClientBase.Utils;
 using Client.ClientBase.Fonts;
 using Client.ClientBase;
+using System.Diagnostics;
+using System.Threading;
 
 namespace Client
 {
     partial class Program
     {
-        //SIZE
         public static int xSize = 1920;
         public static int ySize = 1080;
         public const int maxX = 110;
@@ -16,18 +17,12 @@ namespace Client
         public static Overlay form = new();
         private static readonly System.Windows.Forms.Timer redrawTimer = new();
         private static readonly ManualResetEvent mainThreadEvent = new(false);
-        public static readonly string fontPath = "FOLDER TO TYPES HERE";
+        public static readonly string fontPath = "C:/Users/Eigenaar/3D Objects/github/New folder/ClientBase/Fonts/Types";
         public static readonly string client_name = "Rice";
 
 
         static void Main(string[] args)
         {
-            if (fontPath == "FOLDER TO TYPES HERE")
-            {
-                Console.WriteLine("Please set the font path in Program.cs (Line: 21)");
-                return;
-            }
-
             Console.WriteLine("Starting " + client_name + " Client");
             Console.WriteLine("I like " + client_name);
 
