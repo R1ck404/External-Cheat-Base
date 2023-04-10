@@ -1,3 +1,4 @@
+#Shatterline Cheat
 This is an external, screen/pixel based cheat with a very simple design. It serves as a good base for any external client, and comes equipped with a module system and notification system.
 
 The cheat includes several modules such as Aura, AimAssist, ArrayList, and ClickGUI (which is currently unfinished). With the module system, users can easily enable or disable different modules to suit their needs.
