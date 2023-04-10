@@ -8,3 +8,8 @@ Please note that this client was not used nor tested in multiplayer. We strongly
 Unfortunately, development of this cheat has been discontinued due to performance issues that the i was unable to resolve. However, the code is still available for others to use and build upon. 
 
 Thank you for checking out this repository!
+
+CURRENT KEYBINDS:
+ArrayList: INSERT
+AimAssist: K
+Aura: L
